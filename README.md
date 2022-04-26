@@ -48,5 +48,16 @@ kubectl port-forward service/testkube-dashboard 8989:80
 
 ```
 
+# Add test from github
+```bash
+kubectl testkube create test --git-uri https://github.com/ericfuxealth/testkube.git --git-branch main --git-path k6 --type "k6/script" --name k6-test-git -s default
+kubectl testkube get test k6-test-git t -s default
+kubectl testkube run test k6-test-git -f  -s default
+
+```
 
 
+# Clean up
+```bash
+kubectl delete jobs `kubectl get jobs -o custom-columns=:.metadata.name`
+```
