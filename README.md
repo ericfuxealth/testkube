@@ -50,10 +50,16 @@ kubectl port-forward service/testkube-dashboard 8989:80
 
 # Add test from github
 ```bash
+kubectl apply -f k6/k6-executor.yaml
 kubectl testkube create test --git-uri https://github.com/ericfuxealth/testkube.git --git-branch main --git-path k6 --type "k6/script" --name k6-test-git -s default
 kubectl testkube get test k6-test-git t -s default
-kubectl testkube run test k6-test-git -f  -s default
+```
 
+# Run test from github
+
+```bash
+kubectl testkube run test k6-test-git --args k6/test-all.js --watch  -s default
+kubectl testkube run test k6-test-git --args k6/test-slow.js --watch  -s default
 ```
 
 
