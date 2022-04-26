@@ -1,0 +1,31 @@
+{
+	"info": {
+		"_postman_id": "88830af0-1278-4888-8ac2-fab551cc5b67",
+		"name": "k6",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "test-normal",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status is 200', function () {",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://nginx:8081"
+			},
+			"response": []
+		}
+	]
+}

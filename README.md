@@ -42,12 +42,6 @@ kubectl testkube run test  k6-test-slow -f
 
 ```
 
-# Dashboard
-TBD
-```bash
-kubectl testkube dashboard -s default
-
-```
 
 # Add test from github
 ```bash
@@ -62,6 +56,22 @@ kubectl testkube get test k6-test-git t
 kubectl testkube run test k6-test-git --args k6/test-all.js --watch
 kubectl testkube run test k6-test-git --args k6/test-slow.js --watch
 ```
+
+# Create test from Postman
+
+```bash
+kubectl testkube create test --name k6-test-postman --file postman/k6.test-normal.json --type postman/collection
+
+kubectl testkube run test k6-test-postman --watch
+```
+
+
+# Dashboard
+```bash
+kubectl testkube dashboard -s default
+
+```
+
 
 
 # Clean up
