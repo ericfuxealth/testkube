@@ -1,0 +1,71 @@
+# https://stackoverflow.com/questions/14752943/using-nginx-to-simulate-slow-response-time-for-testing-purposes
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  default.conf: |
+    server {
+      listen                  8080;
+      server_name             _;
+      root                    /usr/share/nginx/html;
+      location / {
+        index  index.html index.htm;
+      }
+    }
+
+    server {
+      listen                  8081;
+      server_name             _;
+      location / {
+            proxy_pass http://localhost:8080/;
+            limit_rate 200;
+        }
+    }
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 8080
+        - containerPort: 8081
+        volumeMounts:
+        - name: nginx-configs
+          mountPath: /etc/nginx/conf.d
+      volumes:
+        - name: nginx-configs
+          configMap:
+            name: nginx-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    targetPort: 8080
+    name: normal
+  - port: 8081
+    targetPort: 8081
+    name: slow
+  selector:
+    app: nginx
