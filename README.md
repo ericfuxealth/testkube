@@ -1,17 +1,17 @@
 # Setup
 
 Run nginx in a minikube k8s cluster.
-* port 8080 serves the normal welcome nginx page
-* port 8081 serves a slow response (rate limited to 200 bytes/s) of the page
+* port 8081 serves the normal welcome nginx page
+* port 8082 serves a slow response (rate limited to 200 bytes/s) of the page
 
 ```bash
 minikube start
 
-kubectl apply nginx nginx/nginx.yaml
+kubectl apply -f nginx/nginx.yaml
 
 kubectl port-forward service/nginx  8081:8081
 
-kubectl port-forward service/nginx  8080:8080
+kubectl port-forward service/nginx  8082:8082
 ```
 
 # Run k6
@@ -28,38 +28,39 @@ k6 run -e hostname=localhost k6/test-slow.js
 ```bash
 brew install testkube
 kubectl testkube install --namespace default
-kubectl get pods -n testkube -s default
+kubectl testkube config namespace default
+kubectl get pods -n testkube
 ```
 
 # Create tests
 ```bash
-kubectl testkube create test --file k6/test-all.js --name k6-test-all -s default
-kubectl testkube create test --file k6/test-slow.js --name k6-test-slow -s default
-kubectl testkube get test -s default
-kubectl testkube run test  k6-test-all -f  -s default
-kubectl testkube run test  k6-test-slow -f  -s default
+kubectl testkube create test --file k6/test-all.js --name k6-test-all
+kubectl testkube create test --file k6/test-slow.js --name k6-test-slow
+kubectl testkube get test
+kubectl testkube run test  k6-test-all -f
+kubectl testkube run test  k6-test-slow -f
 
 ```
 
 # Dashboard
 TBD
 ```bash
-kubectl port-forward service/testkube-dashboard 8989:80
+kubectl testkube dashboard -s default
 
 ```
 
 # Add test from github
 ```bash
 kubectl apply -f k6/k6-executor.yaml
-kubectl testkube create test --git-uri https://github.com/ericfuxealth/testkube.git --git-branch main --git-path k6 --type "k6/script" --name k6-test-git -s default
-kubectl testkube get test k6-test-git t -s default
+kubectl testkube create test --git-uri https://github.com/ericfuxealth/testkube.git --git-branch main --git-path k6 --type "k6/script" --name k6-test-git
+kubectl testkube get test k6-test-git t
 ```
 
 # Run test from github
 
 ```bash
-kubectl testkube run test k6-test-git --args k6/test-all.js --watch  -s default
-kubectl testkube run test k6-test-git --args k6/test-slow.js --watch  -s default
+kubectl testkube run test k6-test-git --args k6/test-all.js --watch
+kubectl testkube run test k6-test-git --args k6/test-slow.js --watch
 ```
 
 

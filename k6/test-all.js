@@ -7,7 +7,7 @@ export const options = {
     normal: {
       executor: 'per-vu-iterations',
       env: {
-        port: '8080'
+        port: '8081'
       },
       vus: 10,
       maxDuration: '10s'
@@ -15,7 +15,7 @@ export const options = {
     slow: {
       executor: 'per-vu-iterations',
       env: {
-        port: '8081'
+        port: '8082'
       },
       vus: 10,
       maxDuration: '10s'

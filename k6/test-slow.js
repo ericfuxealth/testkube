@@ -2,11 +2,9 @@ import http from 'k6/http'
 import { sleep } from 'k6'
 import { check } from 'k6'
 
-const slow_url = 'localhost:8081'
-
 function runTest() {
   const hostname = __ENV.hostname || 'nginx'
-  const port = 8081
+  const port = 8082
   const res = http.get(`http://${hostname}:${port}`)
 
   check(res, {

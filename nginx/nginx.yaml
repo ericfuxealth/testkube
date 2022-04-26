@@ -7,7 +7,7 @@ metadata:
 data:
   default.conf: |
     server {
-      listen                  8080;
+      listen                  8081;
       server_name             _;
       root                    /usr/share/nginx/html;
       location / {
@@ -16,10 +16,10 @@ data:
     }
 
     server {
-      listen                  8081;
+      listen                  8082;
       server_name             _;
       location / {
-            proxy_pass http://localhost:8080/;
+            proxy_pass http://localhost:8081/;
             limit_rate 200;
         }
     }
@@ -43,8 +43,8 @@ spec:
       - name: nginx
         image: nginx
         ports:
-        - containerPort: 8080
         - containerPort: 8081
+        - containerPort: 8082
         volumeMounts:
         - name: nginx-configs
           mountPath: /etc/nginx/conf.d
@@ -61,11 +61,11 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - port: 8080
-    targetPort: 8080
-    name: normal
   - port: 8081
     targetPort: 8081
+    name: normal
+  - port: 8082
+    targetPort: 8082
     name: slow
   selector:
     app: nginx
