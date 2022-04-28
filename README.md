@@ -39,7 +39,6 @@ kubectl testkube create test --file k6/test-slow.js --name k6-test-slow
 kubectl testkube get test
 kubectl testkube run test  k6-test-all -f
 kubectl testkube run test  k6-test-slow -f
-
 ```
 
 
@@ -47,7 +46,7 @@ kubectl testkube run test  k6-test-slow -f
 ```bash
 kubectl apply -f k6/k6-executor.yaml
 kubectl testkube create test --git-uri https://github.com/ericfuxealth/testkube.git --git-branch main --git-path k6 --type "k6/script" --name k6-test-git
-kubectl testkube get test k6-test-git t
+kubectl testkube get test k6-test-git
 ```
 
 # Run test from github
@@ -62,9 +61,18 @@ kubectl testkube run test k6-test-git --args k6/test-slow.js --watch
 ```bash
 kubectl testkube create test --name k6-test-postman --file postman/k6.test-normal.json --type postman/collection
 
-kubectl testkube run test k6-test-postman --watch
+kubectl testkube get test k6-test-postman
+
+kubectl testkube tests run test k6-test-postman --watch
 ```
 
+# Run Postman test from github
+
+```bash
+kubectl testkube create test --git-uri https://github.com/ericfuxealth/testkube.git --git-branch main --git-path postman --type "postman/collection" --name k6-test-postman-git
+
+kubectl testkube tests run test k6-test-postman-git --args postman/k6.test-normal.json --watch
+```
 
 # Dashboard
 ```bash

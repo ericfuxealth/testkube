@@ -69,3 +69,18 @@ spec:
     name: slow
   selector:
     app: nginx
+
+# ---
+# apiVersion: vpcresources.k8s.aws/v1beta1
+# kind: SecurityGroupPolicy
+# metadata:
+#   name: nginx-sg-policy
+# spec:
+#   podSelector:
+#     matchLabels:
+#       app: nginx
+#   securityGroups:
+#     groupIds:
+#     - sg-030fb59a9f6e22593 # cluster sg
+#     - sg-02ff589a94c303dfc
+
