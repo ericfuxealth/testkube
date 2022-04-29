@@ -29,7 +29,8 @@ k6 run -e hostname=localhost k6/test-slow.js
 brew install testkube
 kubectl testkube install --namespace default
 kubectl testkube config namespace default
-kubectl get pods -n testkube
+kubectl get pods
+kubectl-testkube get executor
 ```
 
 # Create tests
@@ -69,10 +70,12 @@ kubectl testkube run test k6-test-postman --watch
 # Run Postman test from github
 
 ```bash
-kubectl testkube create test --git-uri https://github.com/ericfuxealth/testkube.git --git-branch main --git-path postman --type "postman/collection" --name k6-test-postman-git
-```
-TODO: this doesn't work
-```
+kubectl testkube create test \
+  --git-uri https://github.com/ericfuxealth/testkube.git \
+  --git-branch main --git-path postman/k6.test-normal.json \
+  --test-content-type=git-file \
+  --type "postman/collection" \
+  --name k6-test-postman-git
 kubectl testkube run test k6-test-postman-git  --watch
 ```
 
@@ -115,9 +118,7 @@ argocd@argocd-repo-server-688499954f-xrl6t:~$ testkube generate test-crds .
 # Dashboard
 ```bash
 kubectl testkube dashboard -s default
-
 ```
-
 
 
 # Clean up
