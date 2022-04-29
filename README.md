@@ -105,6 +105,11 @@ TODO: didn't work: argocd error:
 rpc error: code = Unknown desc = Manifest generation error (cached): `bash -c testkube generate tests-crds .` failed exit status 1
 
 ```
+I ssh into the argocd-repo-server pods and run the "testkube" command, got this
+```bash
+argocd@argocd-repo-server-688499954f-xrl6t:~$ testkube generate test-crds .
+â¨¯ setting up client type (error: invalid configuration: no configuration has been provided, try setting KUBERNETES_MASTER environment variable)
+```
 
 
 # Dashboard
