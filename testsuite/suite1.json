@@ -1,0 +1,21 @@
+{
+  "name": "nginx-testsuite1",
+  "description": "Tests normal and slow responses",
+  "steps": [
+    {
+      "execute": {
+        "name": "k6-test-all"
+      }
+    },
+    {
+      "delay": {
+        "duration": 1000
+      }
+    },
+    {
+      "execute": {
+        "name": "k6-test-slow"
+      }
+    }
+  ]
+}

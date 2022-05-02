@@ -114,6 +114,13 @@ argocd@argocd-repo-server-688499954f-xrl6t:~$ testkube generate test-crds .
 â¨¯ setting up client type (error: invalid configuration: no configuration has been provided, try setting KUBERNETES_MASTER environment variable)
 ```
 
+# Create Test Suites
+```bash
+kubectl testkube create testsuite -f testsuite/suite1.json --name k6-local-tests
+kubectl testkube get testsuite
+kubectl testkube run testsuite k6-local-tests --watch
+```
+
 
 # Dashboard
 ```bash
